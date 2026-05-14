@@ -1,9 +1,9 @@
-# Exercise 01 — Assembler Simulator
+# Exercise 01: Assembler Simulator
 
 Introduction to low-level programming using a simple 8-bit Assembly simulator.  
-No hardware required — this exercise runs entirely in the browser.
+No hardware required. This exercise runs entirely in the browser.
 
-🔗 **Simulator:** [Simple 8-bit Assembler Simulator](https://schweigi.github.io/assembler-simulator/)
+**Simulator:** [Simple 8-bit Assembler Simulator](https://schweigi.github.io/assembler-simulator/)
 
 The syntax is inspired by **NASM (Netwide Assembler)**.
 
@@ -11,11 +11,16 @@ The syntax is inspired by **NASM (Netwide Assembler)**.
 
 ## What the Simulator Shows You
 
-- **Registers** A, B, C, D : general-purpose 8-bit registers
-- **Memory** : 256 bytes of RAM; output area starts at address `232`
-- **Flags** : Zero, Carry, Fault — set automatically by arithmetic and compare instructions
-- **Stack** — used by `CALL`, `PUSH`, `POP`, `RET`
-- **Program counter** — tracks which instruction executes next
+- **Registers** A, B, C, D : General-purpose 8-bit registers used to store temporary values and addresses.
+- **Memory** : The simulator provides 256 bytes of RAM. The output display begins at memory address `232`.
+- **Flags (`Z`, `C`, `F`)** : Status flags automatically modified by arithmetic and comparison instructions:
+ The simulator provides three status flags:
+- `Z` -> Zero Flag
+- `C` -> Carry Flag
+- `F` -> Fault/Error Flag
+- **Stack (`SP`)** : A special memory area used to temporarily save data during function calls.
+  Instructions such as `PUSH`, `POP`, `CALL`, and `RET` use the stack.
+- **Instruction Pointer (`IP`)** : Stores the address of the next instruction to execute.
 
 ---
 
@@ -64,13 +69,27 @@ print:                     ; Subroutine: print(C: source, D: destination)
         RET
 ```
 
+## Program Explanation
+
+This example program prints "Hello World!" into the simulator output memory.
+
+**Main Steps**
+- Jump to the start label
+- Store the address of the string in register C
+- Store the output memory address (232) in register D
+- Call the print function
+- Copy each character from memory into the output buffer
+- Stop execution using HLT
+
+---
+
 Use the **Step** button to execute one instruction at a time and watch registers and memory change.
 
 ---
 
 ## Parts
 
-### Part 1.1 — Instruction Set
+### Part 1.1: Instruction Set
 
 Read the instruction reference in the simulator sidebar.
 
@@ -80,31 +99,31 @@ Experiment freely with the Hello World program:
 - Add arithmetic instructions
 - Remove or rearrange jumps and observe what breaks
 
-the goal is to get comfortable with the environment.
+The goal is to get comfortable with the environment.
 
 ---
 
-### Part 1.2 — Hello Name
+### Part 1.2 : Hello Name
 
 Modify the Hello World program so that it prints your own first and last name.
 
 **Expected output:**
 ```
-|v|o|r|n|a|m|e| | |n|a|m|e|
+Firstname Lastname for example: John Doe
 ```
 
 <details>
 <summary>Hint</summary>
 
-Characters are stored as ASCII values — `'A'` = 65, `'a'` = 97, space = 32.  
+Characters are stored as ASCII values : `'A'` = 65, `'a'` = 97, space = 32.  
 Define your name as: `DB "Firstname Lastname"` followed by `DB 0` as a null terminator.  
-The existing `print` subroutine already handles null-terminated strings — only the data needs to change.
+The existing `print` subroutine already handles null-terminated strings . Only the data needs to change.
 
 </details>
 
 ---
 
-### Part 1.3 — Print Up To 9
+### Part 1.3 : Print Up To 9
 
 Write an Assembly program that prints the digits 0 through 9 in sequence.
 
@@ -128,18 +147,21 @@ Write directly to address `232` and increment it to advance to the next output c
 
 ---
 
-### Part 1.4 — Count To 42
+### Part 1.4 : Count To 42
 
 Write a program that counts from 0 to 42, displaying the value across the first two output memory cells.  
-After reaching 42 the program restarts from 0 — running in an infinite loop.
+After reaching 42 the program restarts from 0 , running in an infinite loop.
 
 **Expected output (cycling):**
 ```
-0           .. 41
-1       ..     40
-2    ..        39
-⋮  ..           ⋮
-42             0
+0
+1
+2
+...
+41
+42
+0
+1
 
 ```
 
@@ -154,7 +176,7 @@ The simulator has no native division instruction, implement it with repeated sub
 
 ---
 
-### Part 1.5 — Cross Sum
+### Part 1.5: Cross Sum
 
 Write a program that calculates the digit sum (Quersumme) of a given 8-bit number stored as a memory variable.
 
@@ -168,7 +190,7 @@ DB 255  ; Number variable
 12
 ```
 
-because `2 + 5 + 5 = 12`
+Because `2 + 5 + 5 = 12`.
 
 <details>
 <summary>Hint</summary>
@@ -181,7 +203,7 @@ Implement division and modulo using repeated subtraction.
 
 ---
 
-### Part 1.6 — Fibonacci *(Bonus)*
+### Part 1.6 : Fibonacci *(Bonus)*
 
 Write a program that computes and displays the 11th Fibonacci number.
 
@@ -227,7 +249,7 @@ Use a counter register to stop at 11. Start with `F1 = 1` and `F2 = 1`.
     └── 1.6-fibonacci.asm
 ```
 
-> Work through `starter/` first. The solution files are heavily commented — reading them after solving is where the real learning happens.
+> Work through `starter/` first. The solution files are heavily commented. Reading them after solving is where the real learning happens.
 
 ---
 
